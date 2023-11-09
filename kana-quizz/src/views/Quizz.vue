@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 import MenuButton from '../components/MenuButton.vue';
 
+let answer = ref<string>('')
 let answers = ref<Array<string>>([])
 let choices = ref<Array<number>>([])
 let index = ref<number>(0)
+let score = ref<number>(0)
+let isFinish = ref<boolean>(false)
 const kanas = ref<Array<Object>>([
     { phonetique: 'a', hiragana: 'あ', katakana: 'ア' },
     { phonetique: 'i', hiragana: 'い', katakana: 'イ' },
@@ -67,6 +70,8 @@ if (route.params.kana == "hiragana_katakana") {
     kanaType.value = <string>route.params.kana
 }
 
+const isEnded = computed(() => index.value + 1 == +route.params.number)
+
 for (let i = 0; i < +route.params.number; i++) {
     choices.value.push(Math.floor(Math.random() * kanas.value.length))
 }
@@ -121,6 +126,12 @@ function changeQuestion() {
 
 function correctQuestion() {
     showCorrection.value = true
+    if (chosenIndex.value == answerArrayPosition.value || answer.value == Object(kanas.value[choices.value[index.value]])['phonetique']) {
+        score.value++
+    }
+    if (index.value + 1 == +route.params.number) {
+        isFinish.value = true
+    }
 }
 </script>
 
@@ -130,26 +141,61 @@ function correctQuestion() {
         <div class="d-flex justify-center mb-6 text-h2">
             {{ Object(kanas[choices[index]])[kanaType] }}
         </div>
-        <div class="d-flex flex-row justify-space-between mb-6">
+        <div v-if="+$route.params.level == 2" class="mb-6" :class="{
+            goodAnswerBackground: answer == Object(kanas[choices[index]])['phonetique'] && showCorrection,
+            badAnswerBackground: answer != Object(kanas[choices[index]])['phonetique'] && showCorrection
+        }">
+            <v-text-field v-model="answer" hide-details single-line type="text" class="width50" density="compact" />
+        </div>
+        <div v-else class="d-flex flex-row justify-space-between mb-6">
             <div v-for="(answer, index) in answers"
-                :class="[`proposition-${index}`, { outline: chosenIndex == index, goodAnswer: index == answerArrayPosition && showCorrection, badAnswer: index != answerArrayPosition && showCorrection }]"
+                :class="[`proposition-${index}`, { outline: chosenIndex == index, goodAnswerOutline: index == answerArrayPosition && showCorrection, badAnswerOutline: index != answerArrayPosition && showCorrection && chosenIndex == index }]"
                 class="d-flex box width7 hover" @click="chooseIndex(index)">{{ answer }}
             </div>
         </div>
-        <div class="d-flex flex-row justify-space-between">
-            <button class="width23" @click="correctQuestion">Correct</button>
-            <button class="width23" @click="changeQuestion">Next</button>
+        <div class="d-flex flex-row justify-space-between mb-6">
+            <button class="width23" @click="correctQuestion" :class="{
+                disabledButton: showCorrection
+            }">Correct</button>
+            <button class="width23" @click="changeQuestion" :class="{ disabledButton: isEnded }">Next</button>
         </div>
+        <b v-if="isFinish" class="score">Score : {{ score }} / {{ $route.params.number }}</b>
+        <p v-else>{{ index + 1 }} / {{ $route.params.number }}</p>
     </div>
 </template>
 
 <style>
-.goodAnswer {
+.goodAnswerOutline {
     outline: solid;
     outline-color: green;
 }
 
-.badAnswer {
+.badAnswerOutline {
+    outline: solid;
     outline-color: red;
+}
+
+.goodAnswerBackground {
+    background-color: rgba(0, 128, 0, 0.5);
+}
+
+.badAnswerBackground {
+    background-color: rgba(255, 0, 0, 0.5);
+}
+
+.disabledButton {
+    background-color: rgb(60, 60, 60);
+    color: rgb(139, 139, 139);
+    pointer-events: none;
+    border-width: 0;
+}
+
+.disabledButton:focus {
+    outline: none;
+}
+
+.score {
+    font-size: large;
+    color: rgb(96, 96, 255);
 }
 </style>

@@ -95,8 +95,8 @@ function clickKatakana() {
     border-radius: 6px;
     align-items: center;
     justify-content: center;
-    background-color: rgb(69, 69, 69);
-    color: rgb(100, 100, 100);
+    background-color: rgb(60, 60, 60);
+    color: rgb(139, 139, 139);
 }
 
 .outline {
@@ -110,5 +110,6 @@ function clickKatakana() {
 
 .hover:hover {
     background-color: rgb(113, 113, 113) !important;
+    color: rgb(255, 255, 255);
 }
 </style>
