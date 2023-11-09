@@ -1,37 +1,32 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { ref } from 'vue'
 
-export default defineComponent({
-    data() {
-        return {
-            levels: {
-                0: 'Easy',
-                1: 'Medium',
-                2: 'Difficult',
-            },
-            level: 0,
-            numberQuestions: 1,
-            isHiragana: false,
-            isKatakana: false,
-        }
-    },
-    methods: {
-        clickHiragana() {
-            if (this.isHiragana) {
-                this.isHiragana = false
-            } else {
-                this.isHiragana = true
-            }
-        },
-        clickKatakana() {
-            if (this.isKatakana) {
-                this.isKatakana = false
-            } else {
-                this.isKatakana = true
-            }
-        }
-    }
+const levels = ref({
+    0: 'Easy',
+    1: 'Medium',
+    2: 'Hard',
 })
+
+let level = ref(0)
+let numberQuestions = ref(1)
+let isHiragana = ref(false)
+let isKatakana = ref(false)
+
+function clickHiragana() {
+    if (isHiragana.value) {
+        isHiragana.value = false
+    } else {
+        isHiragana.value = true
+    }
+}
+
+function clickKatakana() {
+    if (isKatakana.value) {
+        isKatakana.value = false
+    } else {
+        isKatakana.value = true
+    }
+}
 </script>
 
 <template>
@@ -78,6 +73,10 @@ export default defineComponent({
 </template>
 
 <style>
+.width7 {
+    width: 7vw;
+}
+
 .width15 {
     width: 15vw;
 }
