@@ -166,20 +166,21 @@ function correctQuestion() {
         }">
             <v-text-field v-model="answer" hide-details single-line type="text" class="width50" density="compact" />
         </div>
-        <div v-else class="d-flex flex-row flex-wrap justify-space-between mb-6">
+        <div v-else class="d-flex flex-row flex-wrap justify-center mb-6" style="gap: 10px">
             <div v-for="(asw, aswIndex) in answers"
                 :class="[`proposition-${index}`, { outline: chosenIndex == aswIndex, goodAnswerOutline: isGoodByIndex(aswIndex), badAnswerOutline: isBadByIndex(aswIndex) }]"
                 class="d-flex box width7 hover" @click="chooseIndex(aswIndex)">{{ asw }}
             </div>
         </div>
         <div class="d-flex flex-row justify-space-between mb-6">
-            <button class="width23" @click="correctQuestion" :class="{
+            <button class="width23 d-flex justify-center quizzButton whiteFont fitContent" @click="correctQuestion" :class="{
                 disabledButton: showCorrection
             }">Correct</button>
-            <button class="width23" @click="changeQuestion" :class="{ disabledButton: isEnded }">Next</button>
+            <button class="width23 d-flex justify-center quizzButton whiteFont fitContent" @click="changeQuestion"
+                :class="{ disabledButton: isEnded }">Next</button>
         </div>
         <b v-if="isFinish" class="score">Score : {{ score }} / {{ $route.params.number }}</b>
-        <p v-else>{{ index + 1 }} / {{ $route.params.number }}</p>
+        <p v-else class="whiteFont">{{ index + 1 }} / {{ $route.params.number }}</p>
     </div>
 </template>
 
@@ -216,5 +217,9 @@ function correctQuestion() {
 .score {
     font-size: large;
     color: rgb(96, 96, 255);
+}
+
+.quizzButton {
+    background-color: rgb(139, 139, 139);
 }
 </style>

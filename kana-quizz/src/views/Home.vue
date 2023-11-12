@@ -32,10 +32,10 @@ function clickKatakana() {
 <template>
     <div class="d-flex flex-column width50">
         <div class="d-flex flex-row justify-space-between mb-6">
-            <div class="box hover width23 d-flex" :class="{ outline: isHiragana }" @click="clickHiragana">
+            <div class="box hover width23 d-flex fitContent" :class="{ outline: isHiragana }" @click="clickHiragana">
                 <p>Hiragana</p>
             </div>
-            <div class="box hover width23 d-flex" :class="{ outline: isKatakana }" @click="clickKatakana">
+            <div class="box hover width23 d-flex fitContent" :class="{ outline: isKatakana }" @click="clickKatakana">
                 <p>Katakana</p>
             </div>
         </div>
@@ -53,17 +53,17 @@ function clickKatakana() {
                 </v-col>
             </v-row>
         </div>
-        <router-link v-if="isHiragana && isKatakana" class="d-flex flex-column width50 box hover" :to="{
+        <router-link v-if="isHiragana && isKatakana" class="d-flex flex-column width50 box hover fitContent" :to="{
             name: 'quizz', params: {
                 number: numberQuestions, kana: 'hiragana_katakana', level: level
             }
         }">Begin</router-link>
-        <router-link v-else-if="isHiragana" class="d-flex flex-column width50 box hover" :to="{
+        <router-link v-else-if="isHiragana" class="d-flex flex-column width50 box hover fitContent" :to="{
             name: 'quizz', params: {
                 number: numberQuestions, kana: 'hiragana', level: level
             }
         }">Begin</router-link>
-        <router-link v-else-if="isKatakana" class="d-flex flex-column width50 box hover" :to="{
+        <router-link v-else-if="isKatakana" class="d-flex flex-column width50 box hover fitContent" :to="{
             name: 'quizz', params: {
                 number: numberQuestions, kana: 'katakana', level: level
             }
@@ -88,6 +88,10 @@ function clickKatakana() {
 
 .width50 {
     width: 50vw !important;
+}
+
+.fitContent {
+    min-width: fit-content;
 }
 
 @media only screen and (max-width: 700px) {
