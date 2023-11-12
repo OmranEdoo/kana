@@ -127,6 +127,7 @@ function changeKanaType() {
 }
 
 function changeQuestion() {
+    correctQuestion()
     changeKanaType()
     answer.value = ''
     showCorrection.value = false
@@ -191,7 +192,7 @@ function correctQuestion() {
 }
 
 .badAnswerOutline {
-    outline: solid;
+    outline: solid 5px;
     outline-color: red;
 }
 
