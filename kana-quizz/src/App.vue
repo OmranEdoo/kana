@@ -14,8 +14,10 @@
 </template>
 
 <style>
-body {
+body,
+html {
   background-color: #202124;
+  height: 100%;
 }
 
 #footer {
