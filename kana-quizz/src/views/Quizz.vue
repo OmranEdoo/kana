@@ -151,7 +151,7 @@ function correctQuestion() {
     <MenuButton />
     <div class="d-flex flex-column width50">
         <div class="d-flex flex-row justify-center mb-6">
-            <div class="d-flex justify-center text-h2">
+            <div class="d-flex justify-center text-h2 whiteFont">
                 {{ Object(kanas[choices[index]])[kanaType] }}
             </div>
             <div class="d-flex align-center text-h4"
@@ -166,7 +166,7 @@ function correctQuestion() {
         }">
             <v-text-field v-model="answer" hide-details single-line type="text" class="width50" density="compact" />
         </div>
-        <div v-else class="d-flex flex-row justify-space-between mb-6">
+        <div v-else class="d-flex flex-row flex-wrap justify-space-between mb-6">
             <div v-for="(asw, aswIndex) in answers"
                 :class="[`proposition-${index}`, { outline: chosenIndex == aswIndex, goodAnswerOutline: isGoodByIndex(aswIndex), badAnswerOutline: isBadByIndex(aswIndex) }]"
                 class="d-flex box width7 hover" @click="chooseIndex(aswIndex)">{{ asw }}
@@ -185,7 +185,7 @@ function correctQuestion() {
 
 <style>
 .goodAnswerOutline {
-    outline: solid;
+    outline: solid 5px;
     outline-color: green;
 }
 

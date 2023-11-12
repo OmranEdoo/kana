@@ -28,4 +28,8 @@ body {
 .noAnimButton {
   pointer-events: none;
 }
+
+.whiteFont {
+  color: whitesmoke;
+}
 </style>

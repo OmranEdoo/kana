@@ -40,16 +40,16 @@ function clickKatakana() {
             </div>
         </div>
         <div class="d-flex flex-column align-start mb-6">
-            <p>Number of questions</p>
-            <v-text-field v-model="numberQuestions" hide-details single-line type="number" min="1" max="100" class="width50"
-                density="compact" />
+            <p class="whiteFont">Number of questions</p>
+            <v-text-field v-model="numberQuestions" hide-details single-line type="number" min="1" max="100"
+                class="width50 whiteFont" density="compact" />
         </div>
         <div class="d-flex flex-column align-start mb-6">
-            <p>Level</p>
+            <p class="whiteFont">Level</p>
             <v-row class="width50">
                 <v-col>
                     <v-slider v-model="level" :ticks="levels" min="0" max="2" :step="1" show-ticks="always" tick-size="5"
-                        thumb-size="20" />
+                        thumb-size="20" class="whiteFont" />
                 </v-col>
             </v-row>
         </div>
@@ -75,6 +75,7 @@ function clickKatakana() {
 <style>
 .width7 {
     width: 7vw;
+    min-width: 50px;
 }
 
 .width15 {
