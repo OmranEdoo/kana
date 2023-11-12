@@ -14,7 +14,7 @@
 </template>
 
 <style>
-#body {
+body {
   background-color: #202124;
 }
 
