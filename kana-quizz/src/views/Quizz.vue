@@ -154,7 +154,7 @@ function correctQuestion() {
             <div class="d-flex justify-center text-h2 whiteFont">
                 {{ Object(kanas[choices[index]])[kanaType] }}
             </div>
-            <div class="d-flex align-center text-h4"
+            <div class="d-flex align-center text-h4 whiteFont"
                 v-if="showCorrection && ((isBadByValue && isLevelTwo) || (chosenIndex != answerArrayPosition && !isLevelTwo))">
                 → {{
                     Object(kanas[choices[index]])['phonetique'] }}</div>
@@ -204,7 +204,7 @@ function correctQuestion() {
 }
 
 .disabledButton {
-    background-color: rgb(60, 60, 60);
+    background-color: rgb(60, 60, 60) !important;
     color: rgb(139, 139, 139);
     pointer-events: none;
     border-width: 0;
