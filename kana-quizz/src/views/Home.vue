@@ -89,6 +89,12 @@ function clickKatakana() {
     width: 50vw !important;
 }
 
+@media only screen and (max-width: 700px) {
+    .width50 {
+        width: 80vw !important;
+    }
+}
+
 .box {
     display: table-cell;
     height: 50px;

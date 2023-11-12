@@ -71,6 +71,17 @@ if (route.params.kana == "hiragana_katakana") {
 }
 
 const isEnded = computed(() => index.value + 1 == +route.params.number)
+const isGoodByValue = computed(() => answer.value == Object(kanas.value[choices.value[index.value]])['phonetique'] && showCorrection.value)
+const isBadByValue = computed(() => answer.value != Object(kanas.value[choices.value[index.value]])['phonetique'] && showCorrection.value)
+
+function isGoodByIndex(aswIndex: number): boolean {
+    return aswIndex == answerArrayPosition.value && showCorrection.value
+}
+function isBadByIndex(aswIndex: number): boolean {
+    return aswIndex != answerArrayPosition.value && showCorrection.value && chosenIndex.value == aswIndex
+}
+
+const isLevelTwo = computed(() => +route.params.level == 2)
 
 for (let i = 0; i < +route.params.number; i++) {
     choices.value.push(Math.floor(Math.random() * kanas.value.length))
@@ -117,6 +128,7 @@ function changeKanaType() {
 
 function changeQuestion() {
     changeKanaType()
+    answer.value = ''
     showCorrection.value = false
     if (index.value + 1 < +route.params.number) {
         index.value++
@@ -126,7 +138,7 @@ function changeQuestion() {
 
 function correctQuestion() {
     showCorrection.value = true
-    if (chosenIndex.value == answerArrayPosition.value || answer.value == Object(kanas.value[choices.value[index.value]])['phonetique']) {
+    if ((chosenIndex.value == answerArrayPosition.value && !isLevelTwo.value) || (isGoodByValue.value && isLevelTwo.value)) {
         score.value++
     }
     if (index.value + 1 == +route.params.number) {
@@ -138,19 +150,26 @@ function correctQuestion() {
 <template>
     <MenuButton />
     <div class="d-flex flex-column width50">
-        <div class="d-flex justify-center mb-6 text-h2">
-            {{ Object(kanas[choices[index]])[kanaType] }}
+        <div class="d-flex flex-row justify-center mb-6">
+            <div class="d-flex justify-center text-h2">
+                {{ Object(kanas[choices[index]])[kanaType] }}
+            </div>
+            <div class="d-flex align-center text-h4"
+                v-if="showCorrection && ((isBadByValue && isLevelTwo) || (chosenIndex != answerArrayPosition && !isLevelTwo))">
+                → {{
+                    Object(kanas[choices[index]])['phonetique'] }}</div>
         </div>
+
         <div v-if="+$route.params.level == 2" class="mb-6" :class="{
-            goodAnswerBackground: answer == Object(kanas[choices[index]])['phonetique'] && showCorrection,
-            badAnswerBackground: answer != Object(kanas[choices[index]])['phonetique'] && showCorrection
+            goodAnswerBackground: isGoodByValue,
+            badAnswerBackground: isBadByValue
         }">
             <v-text-field v-model="answer" hide-details single-line type="text" class="width50" density="compact" />
         </div>
         <div v-else class="d-flex flex-row justify-space-between mb-6">
-            <div v-for="(answer, index) in answers"
-                :class="[`proposition-${index}`, { outline: chosenIndex == index, goodAnswerOutline: index == answerArrayPosition && showCorrection, badAnswerOutline: index != answerArrayPosition && showCorrection && chosenIndex == index }]"
-                class="d-flex box width7 hover" @click="chooseIndex(index)">{{ answer }}
+            <div v-for="(asw, aswIndex) in answers"
+                :class="[`proposition-${index}`, { outline: chosenIndex == aswIndex, goodAnswerOutline: isGoodByIndex(aswIndex), badAnswerOutline: isBadByIndex(aswIndex) }]"
+                class="d-flex box width7 hover" @click="chooseIndex(aswIndex)">{{ asw }}
             </div>
         </div>
         <div class="d-flex flex-row justify-space-between mb-6">
